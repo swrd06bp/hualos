@@ -7,6 +7,7 @@ from gevent.queue import Queue
 
 app = Flask(__name__)
 subscriptions = []
+all_data = []
 
 @app.route('/health/', methods=['GET'])
 def health():
@@ -41,6 +42,7 @@ def publish():
     payload = request.form.get('data')
     try:
         data = json.loads(payload)
+        all_data.append(payload)
     except:
         return {'error':'invalid payload'}
 
@@ -56,6 +58,8 @@ def publish():
 def subscribe():
     def gen():
         q = Queue()
+        for d in all_data:
+            q.put(d)
         subscriptions.append(q)
         try:
             while True:
