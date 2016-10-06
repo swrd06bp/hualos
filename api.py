@@ -42,6 +42,7 @@ def publish():
     payload = request.form.get('data')
     try:
         data = json.loads(payload)
+        global all_data
         all_data.append(payload)
     except:
         return {'error':'invalid payload'}
@@ -70,6 +71,13 @@ def subscribe():
             subscriptions.remove(q)
 
     return Response(gen(), mimetype="text/event-stream")
+
+@app.route("/reset")
+def reset():
+    global all_data
+    all_data = []
+    return Response("message",mimetype="text/event-stream");
+    #return ('',204)
 
 if __name__ == "__main__":
     app.debug = True

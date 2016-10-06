@@ -21,7 +21,20 @@
   $(document).ready(function(){
     var monitored = {};
     var source = new EventSource('/subscribe/epoch/end/');
+    //var sourcereset = new EventSource('/reset');
     var chart = null;
+
+    /*var reset_chart = function(){
+     
+      chart.destroy();
+      chart = null;
+    }
+
+    sourcereset.addEventListener('message',function(e){
+      console.log("yes");
+      reset_chart();
+      console.log("ok");
+      });*/
 
     source.addEventListener('message', function(e) {
       console.log(e.data);
@@ -59,5 +72,6 @@
       }
     }, false);
   });
+
 
 </script>
